@@ -64,7 +64,8 @@ class Blockchain {
     _addBlock(block) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-            let chainHeight = await this.getChainHeight
+            let chainHeight = await this.getChainHeight()
+            console.log(chainHeight)
             if(chainHeight = -1){
                 block.previousBlockHash = null;
             } else {
@@ -73,12 +74,12 @@ class Blockchain {
             block.time = await new Date().getTime().toString().slice(0,-3)
             block.height = await chainHeight + 1
             block.hash = await SHA256(JSON.stringify(block)).toString()
-            this.chain.push(block)
-            this.height = this.height + 1
+            await this.chain.push(block)
+            this.height = await this.height + 1
             if(block){
                 resolve(block);
             } else {
-                reject("rejected"));
+                reject("rejected");
             }
         });
     }
@@ -122,7 +123,7 @@ class Blockchain {
             let currentTime = await parseInt(new Date().getTime().toString().slice(0, -3));
             if(currentTime - blockTime < 300){
                 if(bitcoinMessage.verify(message, address, signature)){
-                    let block = new BlockClass.Block({
+                    let block = await new BlockClass.Block({
                         "address": address,
                         "message": message,
                         "signature": signature,
