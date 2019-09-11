@@ -65,7 +65,11 @@ class Blockchain {
         let self = this;
         return new Promise(async (resolve, reject) => {
             let chainHeight = await this.getChainHeight
-            block.previousBlockHash = await this.getBlockByHeight(chainHeight).hash
+            if(chainHeight = -1){
+                block.previousBlockHash = null;
+            } else {
+                block.previousBlockHash = await this.getBlockByHeight(chainHeight).hash;
+            }
             block.time = await new Date().getTime().toString().slice(0,-3)
             block.height = await chainHeight + 1
             block.hash = await SHA256(JSON.stringify(block)).toString()
@@ -74,7 +78,7 @@ class Blockchain {
             if(block){
                 resolve(block);
             } else {
-                reject(err);
+                reject("rejected"));
             }
         });
     }
@@ -89,7 +93,7 @@ class Blockchain {
      */
     requestMessageOwnershipVerification(address) {
         return new Promise((resolve) => {
-            let message = String(address) + ":${new Date().getTime().toString().slice(0,-3)}:starRegistry"
+            let message = String(address) + ":" + String(new Date().getTime().toString().slice(0,-3)) + ":starRegistry"
             resolve(message);
         });
     }
@@ -127,10 +131,10 @@ class Blockchain {
                     await this._addBlock(block);
                     resolve(block);
                 } else {
-                    reject(err);
+                    reject("rejected_timeover");
                 }
             } else {
-                reject(err);
+                reject("rejected");
             }
         });
     }
@@ -186,7 +190,7 @@ class Blockchain {
             if(stars.length > 0){
                 resolve(stars);
             } else {
-                reject(err);
+                reject("rejected");
             }
         });
     }
@@ -217,7 +221,7 @@ class Blockchain {
             if(errorLog.length > 0){
                 resolve(errorLog);
             } else {
-                reject(err);
+                reject(null);
             }
         });
     }
