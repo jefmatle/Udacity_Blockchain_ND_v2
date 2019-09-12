@@ -66,20 +66,22 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
             let chainHeight = await this.getChainHeight()
             console.log(chainHeight)
-            if(chainHeight = -1){
+            if(chainHeight === -1){
                 block.previousBlockHash = null;
             } else {
-                block.previousBlockHash = await this.getBlockByHeight(chainHeight).hash;
+                let previousBlockObj = await this.getBlockByHeight(chainHeight);
+                block.previousBlockHash = previousBlockObj.hash;
             }
             block.time = await new Date().getTime().toString().slice(0,-3)
             block.height = await chainHeight + 1
             block.hash = await SHA256(JSON.stringify(block)).toString()
+            console.log(block)
             await this.chain.push(block)
             this.height = await this.height + 1
             if(block){
                 resolve(block);
             } else {
-                reject("rejected");
+                reject("rejected_noBlock");
             }
         });
     }
@@ -132,10 +134,10 @@ class Blockchain {
                     await this._addBlock(block);
                     resolve(block);
                 } else {
-                    reject("rejected_timeover");
+                    reject("rejected_badsign");
                 }
             } else {
-                reject("rejected");
+                reject("rejected_timeover");
             }
         });
     }
@@ -185,13 +187,27 @@ class Blockchain {
         let self = this;
         let stars = [];
         return new Promise((resolve, reject) => {
+            let self = this;
+            console.log(Buffer.from(this.chain[0]))
+            console.log(Buffer.from(this.chain[0].body))
+            /*
             stars = this.chain.filter( function( value ) {
-                if( address === value.body.address ) return value;
-            }, address) // 第2引数にオブジェクトを指定
+                Buffer.from(value.body)
+                if( address === value.body.address )
+                return value;
+            }, address)
+
+            /*
+            if(address === "149MvrkahhB1aSXAVgToFVXC1iSLJVW6kx"){
+                resolve("resolved");
+            } else {
+                reject("rejected_noStar");
+            }
+            */
             if(stars.length > 0){
                 resolve(stars);
             } else {
-                reject("rejected");
+                reject("rejected_noStar");
             }
         });
     }
