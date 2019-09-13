@@ -66,6 +66,7 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
             let chainHeight = await this.getChainHeight()
             console.log(chainHeight)
+            //console.log(this.chain.length)
             if(chainHeight === -1){
                 block.previousBlockHash = null;
             } else {
@@ -75,7 +76,13 @@ class Blockchain {
             block.time = await new Date().getTime().toString().slice(0,-3)
             block.height = await chainHeight + 1
             block.hash = await SHA256(JSON.stringify(block)).toString()
+            console.log("this!")
             console.log(block)
+            console.log("this dataObj")
+            let dataObj = await block.getBData()
+            console.log(dataObj)
+            console.log("this dataObj.address")
+            console.log(dataObj.address)
             await this.chain.push(block)
             this.height = await this.height + 1
             if(block){
@@ -188,22 +195,18 @@ class Blockchain {
         let stars = [];
         return new Promise((resolve, reject) => {
             let self = this;
-            console.log(Buffer.from(this.chain[0]))
-            console.log(Buffer.from(this.chain[0].body))
-            /*
-            stars = this.chain.filter( function( value ) {
-                Buffer.from(value.body)
-                if( address === value.body.address )
-                return value;
-            }, address)
-
-            /*
-            if(address === "149MvrkahhB1aSXAVgToFVXC1iSLJVW6kx"){
-                resolve("resolved");
-            } else {
-                reject("rejected_noStar");
+            let chainHeight = this.chain.length
+            for (let i = 1; i < chainHeight+1; i++) {
+                let block = this.chain[i]
+                let dataObj = block.getBData()
+                let bAddress = dataObj.address
+                console.log(bAddress)
+                if(bAddress === address){
+                    stars.push(block)
+                } else {
+                }
             }
-            */
+            
             if(stars.length > 0){
                 resolve(stars);
             } else {
@@ -222,7 +225,7 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
-            let chainHeight = await this.getChainHeight
+            let chainHeight = await this.getChainHeight()
             for (let i = 1; i < chainHeight+1; i++) {
                 let block = this.chain[i]
                 if(block.validate()){
