@@ -65,7 +65,7 @@ class Blockchain {
         let self = this;
         return new Promise(async (resolve, reject) => {
             let chainHeight = await this.getChainHeight()
-            console.log(chainHeight)
+            //console.log(chainHeight)
             //console.log(this.chain.length)
             if(chainHeight === -1){
                 block.previousBlockHash = null;
@@ -76,13 +76,13 @@ class Blockchain {
             block.time = await new Date().getTime().toString().slice(0,-3)
             block.height = await chainHeight + 1
             block.hash = await SHA256(JSON.stringify(block)).toString()
-            console.log("this!")
-            console.log(block)
-            console.log("this dataObj")
-            let dataObj = await block.getBData()
-            console.log(dataObj)
-            console.log("this dataObj.address")
-            console.log(dataObj.address)
+            //console.log("this!")
+            //console.log(block)
+            //console.log("this dataObj")
+            //let dataObj = await block.getBData()
+            //console.log(dataObj)
+            //console.log("this dataObj.address")
+            //console.log(dataObj.address)
             await this.chain.push(block)
             this.height = await this.height + 1
             if(block){
@@ -193,12 +193,11 @@ class Blockchain {
     getStarsByWalletAddress (address) {
         let self = this;
         let stars = [];
-        return new Promise((resolve, reject) => {
-            let self = this;
-            let chainHeight = this.chain.length
+        return new Promise(async (resolve, reject) => {
+            let chainHeight = await this.getChainHeight()
             for (let i = 1; i < chainHeight+1; i++) {
                 let block = this.chain[i]
-                let dataObj = block.getBData()
+                let dataObj = await block.getBData()
                 let bAddress = dataObj.address
                 console.log(bAddress)
                 if(bAddress === address){

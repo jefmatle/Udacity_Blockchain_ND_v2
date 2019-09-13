@@ -84,7 +84,7 @@ class Block {
             if(this.height >= 1){
                 resolve(dataObj);
             }else{
-                resolve(dataObj);
+                //resolve(dataObj);
             }
         })
     }
