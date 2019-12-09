@@ -1,6 +1,8 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
-const mnemonic = "MetaMask mnemonic";
-const accessToken = "INFURA API Key";
+// const mnemonic = "MetaMask mnemonic";
+// const accessToken = "INFURA API like https://rinkeby.infura.io/********";
+const mnemonic = "";
+const accessToken = "";
 
 module.exports = {
   networks: {
@@ -16,8 +18,7 @@ module.exports = {
           accessToken
         );
       },
-      network_id: 3,
-      gas: 500000
+      network_id: "*"
     }
   }
 };
