@@ -2,11 +2,17 @@
 // pragma solidity ^0.5.11;
 pragma solidity ^0.5.0;
 
+import "../coffeecore/Ownable.sol";
+import "../coffeeaccesscontrol/FarmerRole.sol";
+import "../coffeeaccesscontrol/DistributorRole.sol";
+import "../coffeeaccesscontrol/RetailerRole.sol";
+import "../coffeeaccesscontrol/ConsumerRole.sol";
+
 // Define a contract 'Supplychain'
-contract SupplyChain {
+contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, ConsumerRole {
 
   // Define 'owner'
-  address payable owner;
+  // address payable owner;
 
   // Define a variable called 'upc' for Universal Product Code (UPC)
   uint  upc;
@@ -67,7 +73,8 @@ contract SupplyChain {
 
   // Define a modifer that checks to see if msg.sender == owner of the contract
   modifier onlyOwner() {
-    require(msg.sender == owner);
+    address theOwner = owner();
+    require(msg.sender == theOwner);
     _;
   }
 
@@ -143,17 +150,17 @@ contract SupplyChain {
   // and set 'sku' to 1
   // and set 'upc' to 1
   constructor() public payable {
-    owner = msg.sender;
+    // owner = msg.sender;
     sku = 1;
     upc = 1;
   }
 
   // Define a function 'kill' if required
-  function kill() public {
-    if (msg.sender == owner) {
-      selfdestruct(owner);
-    }
-  }
+  // function kill() public {
+    // if (msg.sender == owner) {
+      // selfdestruct(owner);
+    // }
+  // }
 
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Harvested'
   function harvestItem(uint _upc, address payable _originFarmerID, string memory _originFarmName, string memory _originFarmInformation,
@@ -161,6 +168,8 @@ contract SupplyChain {
   {
     // Add the new item as part of Harvest
     items[_upc].upc = _upc;
+    items[_upc].sku = sku;
+    items[_upc].productID = _upc + sku;
     items[_upc].ownerID = _originFarmerID;
     items[_upc].originFarmerID = _originFarmerID;
     items[_upc].originFarmName = _originFarmName;
@@ -180,7 +189,8 @@ contract SupplyChain {
   // Call modifier to check if upc has passed previous supply chain stage
   harvested(_upc)
   // Call modifier to verify caller of this function
-  verifyCaller(items[_upc].originFarmerID)
+  // verifyCaller(items[_upc].originFarmerID)
+  onlyFarmer()
   {
     // Update the appropriate fields
     items[_upc].itemState = State.Processed;
@@ -193,7 +203,8 @@ contract SupplyChain {
   // Call modifier to check if upc has passed previous supply chain stage
   processed(_upc)
   // Call modifier to verify caller of this function
-  verifyCaller(items[_upc].originFarmerID)
+  // verifyCaller(items[_upc].originFarmerID)
+  onlyFarmer()
   {
     // Update the appropriate fields
     items[_upc].itemState = State.Packed;
@@ -206,7 +217,8 @@ contract SupplyChain {
   // Call modifier to check if upc has passed previous supply chain stage
   packed(_upc)
   // Call modifier to verify caller of this function
-  verifyCaller(items[_upc].originFarmerID)
+  // verifyCaller(items[_upc].originFarmerID)
+  onlyFarmer()
   {
     // Update the appropriate fields
     items[_upc].itemState = State.ForSale;
@@ -243,7 +255,8 @@ contract SupplyChain {
     // Call modifier to check if upc has passed previous supply chain stage
     sold(_upc)
     // Call modifier to verify caller of this function
-    verifyCaller(items[_upc].distributorID)
+    // verifyCaller(items[_upc].distributorID)
+    onlyDistributor()
     {
     // Update the appropriate fields
     items[_upc].itemState = State.Shipped;
