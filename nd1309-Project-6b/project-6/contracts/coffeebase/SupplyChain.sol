@@ -237,6 +237,7 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     paidEnough(items[_upc].productPrice)
     // Call modifer to send any excess ether back to buyer
     checkValue(_upc)
+    onlyDistributor()
     {
 
     // Update the appropriate fields - ownerID, distributorID, itemState
@@ -270,6 +271,7 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     // Call modifier to check if upc has passed previous supply chain stage
     shipped(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
+    onlyRetailer()
     {
     // Update the appropriate fields - ownerID, retailerID, itemState
     items[_upc].ownerID = msg.sender;
@@ -285,6 +287,7 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     // Call modifier to check if upc has passed previous supply chain stage
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
+    onlyConsumer()
     {
     // Update the appropriate fields - ownerID, consumerID, itemState
     items[_upc].ownerID = msg.sender;

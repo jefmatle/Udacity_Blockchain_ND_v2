@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "truffle": "^4.1.16",
+    "truffle-hdwallet-provider": "^1.0.17",
     "web3": "^1.2.4"
   }
 }
