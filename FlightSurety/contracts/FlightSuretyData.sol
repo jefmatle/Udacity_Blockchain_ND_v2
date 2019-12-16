@@ -12,10 +12,16 @@ contract FlightSuretyData {
     address private contractOwner;                                      // Account used to deploy contract
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
 
+    struct AirlineProfile {
+        bool isRegistered;
+    };
+    mapping(address => AirlineProfile) private airlines;
+
     /********************************************************************************************/
     /*                                       EVENT DEFINITIONS                                  */
     /********************************************************************************************/
 
+    event AirlineAdded(address airline);
 
     /**
     * @dev Constructor
@@ -47,6 +53,12 @@ contract FlightSuretyData {
         _;  // All modifiers require an "_" which indicates where the function body will be added
     }
 
+    modifier requireIsRegistered(address airline)
+    {
+        require(isRegistered(airline), "Airline is not registered");
+        _;  // All modifiers require an "_" which indicates where the function body will be added
+    }
+
     /**
     * @dev Modifier that requires the "ContractOwner" account to be the function caller
     */
@@ -73,6 +85,13 @@ contract FlightSuretyData {
         return operational;
     }
 
+    function isRegistered(address airline)
+                            public
+                            view
+                            returns(bool)
+    {
+        return airlines[airline].isRegistered;
+    }
 
     /**
     * @dev Sets contract operations on/off
@@ -100,10 +119,13 @@ contract FlightSuretyData {
     */
     function registerAirline
                             (
+                                address airline
                             )
                             external
-                            pure
+                            // pure
     {
+        airlines[airline].isRegistered = true;
+        emit AirlineAdded(airline);
     }
 
 

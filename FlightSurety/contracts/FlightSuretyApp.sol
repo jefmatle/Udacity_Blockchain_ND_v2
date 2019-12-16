@@ -33,9 +33,12 @@ contract FlightSuretyApp {
         uint8 statusCode;
         uint256 updatedTimestamp;
         address airline;
-    }
+    };
     mapping(bytes32 => Flight) private flights;
 
+    uint private constant minimumN = 5;
+    uint private numOfRegisteredAirlines = 0;
+    address[] multiCalls = new address[](0);
 
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
@@ -82,6 +85,8 @@ contract FlightSuretyApp {
     {
         contractOwner = msg.sender;
         flightSuretyData = FlightSuretyData(dataContractAddress);
+        flightSuretyData.registerAirline(msg.sender);
+        numOfRegisteredAirlines = numOfRegisteredAirlines.add(1);
     }
 
     /********************************************************************************************/
@@ -109,12 +114,36 @@ contract FlightSuretyApp {
     */
     function registerAirline
                             (
+                                address airline
                             )
                             external
                             pure
                             returns(bool success, uint256 votes)
     {
-        return (success, 0);
+        require(flightSuretyData.isRegistered(msg.sender), "Sender is not registered");
+        if (numOfRegisteredAirlines < minimumN) {
+            flightSuretyData.registerAirline(airline);
+            numOfRegisteredAirlines = numOfRegisteredAirlines.add(1);
+        }
+        else{
+            bool isDuplicate = false;
+            for(uint c=0; c<multiCalls.length; c++) {
+                if (multiCalls[c] == msg.sender) {
+                    isDuplicate = true;
+                    break;
+                }
+            }
+            require(!isDuplicate, "Caller has already called this function.");
+            multiCalls.push(msg.sender);
+            if (multiCalls.length >= numOfRegisteredAirlines.dev(2)) {
+                flightSuretyData.registerAirline(airline);
+                numOfRegisteredAirlines = numOfRegisteredAirlines.add(1);
+                success = true;
+                votes = multiCalls.length;
+                multiCalls = new address[](0);
+            }
+            return (success, votes);
+        }
     }
 
 
@@ -124,11 +153,19 @@ contract FlightSuretyApp {
     */
     function registerFlight
                                 (
+                                    string memory flight,
+                                    address airline
                                 )
                                 external
                                 pure
     {
-
+        require(!flights[bytes(flight)].isRegistered, "Flight is already registered.");
+        flights[bytes(flight)] = Flight({
+                                            airlie: airlie,
+                                            statusCode: STATUS_CODE_UNKNOWN,
+                                            updatedTimestamp: block.timestamp,
+                                            isRegistered: true
+                                            });
     }
 
    /**
@@ -145,6 +182,9 @@ contract FlightSuretyApp {
                                 internal
                                 pure
     {
+        flights[bytes(flight)].airlie = airline;
+        flights[bytes(flight)].statusCode = statusCode;
+        flights[bytes(flight)].updatedTimestamp = timestamp;
     }
 
 
