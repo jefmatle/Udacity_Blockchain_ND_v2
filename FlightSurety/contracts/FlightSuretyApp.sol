@@ -5,6 +5,7 @@ pragma solidity ^0.4.25;
 // More info: https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2018/november/smart-contract-insecurity-bad-arithmetic/
 
 import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "./FlightSuretyData.sol";
 
 /************************************************** */
 /* FlightSurety Smart Contract                      */
@@ -33,7 +34,7 @@ contract FlightSuretyApp {
         uint8 statusCode;
         uint256 updatedTimestamp;
         address airline;
-    };
+    }
     mapping(bytes32 => Flight) private flights;
 
     uint private constant minimumN = 5;
@@ -84,7 +85,10 @@ contract FlightSuretyApp {
                                 public
     {
         contractOwner = msg.sender;
+
+        // FlightSuretyData flightSuretyData;
         flightSuretyData = FlightSuretyData(dataContractAddress);
+
         flightSuretyData.registerAirline(msg.sender);
         numOfRegisteredAirlines = numOfRegisteredAirlines.add(1);
     }
@@ -99,7 +103,7 @@ contract FlightSuretyApp {
                             returns(bool)
     {
         // return true;  // Modify to call data contract's status
-        operational = flightSuretyData.isOperational()
+        operational = flightSuretyData.isOperational();
         return operational;
     }
 
@@ -120,8 +124,8 @@ contract FlightSuretyApp {
                             pure
                             returns(bool success, uint256 votes)
     {
-        require(flightSuretyData.isRegistered(msg.sender), "Sender is not registered");
         if (numOfRegisteredAirlines < minimumN) {
+            require(flightSuretyData.isRegistered(msg.sender), "Sender is not registered");
             flightSuretyData.registerAirline(airline);
             numOfRegisteredAirlines = numOfRegisteredAirlines.add(1);
         }
@@ -135,7 +139,7 @@ contract FlightSuretyApp {
             }
             require(!isDuplicate, "Caller has already called this function.");
             multiCalls.push(msg.sender);
-            if (multiCalls.length >= numOfRegisteredAirlines.dev(2)) {
+            if (multiCalls.length >= numOfRegisteredAirlines.div(2)) {
                 flightSuretyData.registerAirline(airline);
                 numOfRegisteredAirlines = numOfRegisteredAirlines.add(1);
                 success = true;
@@ -153,7 +157,7 @@ contract FlightSuretyApp {
     */
     function registerFlight
                                 (
-                                    string memory flight,
+                                    string flight,
                                     address airline
                                 )
                                 external
@@ -161,7 +165,7 @@ contract FlightSuretyApp {
     {
         require(!flights[bytes(flight)].isRegistered, "Flight is already registered.");
         flights[bytes(flight)] = Flight({
-                                            airlie: airlie,
+                                            airline: airline,
                                             statusCode: STATUS_CODE_UNKNOWN,
                                             updatedTimestamp: block.timestamp,
                                             isRegistered: true

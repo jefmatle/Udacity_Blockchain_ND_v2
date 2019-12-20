@@ -14,7 +14,7 @@ contract FlightSuretyData {
 
     struct AirlineProfile {
         bool isRegistered;
-    };
+    }
     mapping(address => AirlineProfile) private airlines;
 
     /********************************************************************************************/
