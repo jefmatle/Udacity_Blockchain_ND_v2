@@ -26,8 +26,10 @@ contract FlightSuretyApp {
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
 
     address private contractOwner;          // Account used to deploy contract
-    bool private operational;                                    // Blocks all state changes throughout the contract if false
     FlightSuretyData flightSuretyData;
+    bool private operational;                                    // Blocks all state changes throughout the contract if false
+
+    uint private constant minimumN = 5;
 
     struct Flight {
         bool isRegistered;
@@ -35,9 +37,9 @@ contract FlightSuretyApp {
         uint256 updatedTimestamp;
         address airline;
     }
-    mapping(bytes32 => Flight) private flights;
+    // mapping(bytes32 => Flight) private flights;
+    mapping(string => Flight) private flights;
 
-    uint private constant minimumN = 5;
     uint private numOfRegisteredAirlines = 0;
     address[] multiCalls = new address[](0);
 
@@ -86,7 +88,6 @@ contract FlightSuretyApp {
     {
         contractOwner = msg.sender;
 
-        // FlightSuretyData flightSuretyData;
         flightSuretyData = FlightSuretyData(dataContractAddress);
 
         flightSuretyData.registerAirline(msg.sender);
@@ -99,7 +100,6 @@ contract FlightSuretyApp {
 
     function isOperational()
                             public
-                            pure
                             returns(bool)
     {
         // return true;  // Modify to call data contract's status
@@ -121,7 +121,6 @@ contract FlightSuretyApp {
                                 address airline
                             )
                             external
-                            pure
                             returns(bool success, uint256 votes)
     {
         if (numOfRegisteredAirlines < minimumN) {
@@ -157,19 +156,19 @@ contract FlightSuretyApp {
     */
     function registerFlight
                                 (
+                                    address airline,
                                     string flight,
-                                    address airline
+                                    uint256 timestamp
                                 )
                                 external
-                                pure
     {
-        require(!flights[bytes(flight)].isRegistered, "Flight is already registered.");
-        flights[bytes(flight)] = Flight({
-                                            airline: airline,
-                                            statusCode: STATUS_CODE_UNKNOWN,
-                                            updatedTimestamp: block.timestamp,
-                                            isRegistered: true
-                                            });
+        require(!flights[flight].isRegistered, "Flight is already registered.");
+        flights[flight] = Flight({
+                                        airline: airline,
+                                        statusCode: STATUS_CODE_UNKNOWN,
+                                        updatedTimestamp: timestamp,
+                                        isRegistered: true
+                                });
     }
 
    /**
@@ -184,11 +183,10 @@ contract FlightSuretyApp {
                                     uint8 statusCode
                                 )
                                 internal
-                                pure
     {
-        flights[bytes(flight)].airlie = airline;
-        flights[bytes(flight)].statusCode = statusCode;
-        flights[bytes(flight)].updatedTimestamp = timestamp;
+        flights[flight].airline = airline;
+        flights[flight].statusCode = statusCode;
+        flights[flight].updatedTimestamp = timestamp;
     }
 
 
