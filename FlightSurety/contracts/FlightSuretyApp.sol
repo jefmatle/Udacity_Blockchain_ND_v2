@@ -25,11 +25,12 @@ contract FlightSuretyApp {
     uint8 private constant STATUS_CODE_LATE_TECHNICAL = 40;
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
 
-    address private contractOwner;          // Account used to deploy contract
-    FlightSuretyData flightSuretyData;
     bool private operational;                                    // Blocks all state changes throughout the contract if false
 
-    uint private constant minimumN = 5;
+    address private contractOwner;          // Account used to deploy contract
+    FlightSuretyData flightSuretyData;
+
+    uint private constant minimumN = 4;
 
     struct Flight {
         bool isRegistered;
@@ -39,9 +40,6 @@ contract FlightSuretyApp {
     }
     // mapping(bytes32 => Flight) private flights;
     mapping(string => Flight) private flights;
-
-    uint private numOfRegisteredAirlines = 0;
-    address[] multiCalls = new address[](0);
 
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
@@ -87,11 +85,8 @@ contract FlightSuretyApp {
                                 public
     {
         contractOwner = msg.sender;
-
         flightSuretyData = FlightSuretyData(dataContractAddress);
 
-        flightSuretyData.registerAirline(msg.sender);
-        numOfRegisteredAirlines = numOfRegisteredAirlines.add(1);
     }
 
     /********************************************************************************************/
@@ -100,6 +95,7 @@ contract FlightSuretyApp {
 
     function isOperational()
                             public
+                            view
                             returns(bool)
     {
         // return true;  // Modify to call data contract's status
@@ -118,37 +114,80 @@ contract FlightSuretyApp {
     */
     function registerAirline
                             (
-                                address airline
+                                address newAirline
                             )
                             external
                             returns(bool success, uint256 votes)
     {
-        if (numOfRegisteredAirlines < minimumN) {
-            require(flightSuretyData.isRegistered(msg.sender), "Sender is not registered");
-            flightSuretyData.registerAirline(airline);
-            numOfRegisteredAirlines = numOfRegisteredAirlines.add(1);
-        }
-        else{
-            bool isDuplicate = false;
-            for(uint c=0; c<multiCalls.length; c++) {
-                if (multiCalls[c] == msg.sender) {
-                    isDuplicate = true;
-                    break;
-                }
-            }
-            require(!isDuplicate, "Caller has already called this function.");
-            multiCalls.push(msg.sender);
-            if (multiCalls.length >= numOfRegisteredAirlines.div(2)) {
-                flightSuretyData.registerAirline(airline);
-                numOfRegisteredAirlines = numOfRegisteredAirlines.add(1);
+        require(isOperational(), "Service is not available");
+        require(flightSuretyData.isAirlinePermitted(msg.sender), "Sender airline is not permitted");
+        require(!flightSuretyData.isAirlineRegistered(newAirline), "New airline is already registered");
+        require(!flightSuretyData.isAirlineVoted(newAirline, msg.sender), "Already voted for new airline");
+        flightSuretyData.addVotes(newAirline, msg.sender);
+        
+        address[] memory registeredAirlines = flightSuretyData.getRegisteredAirlines();
+        address[] memory airlineVotes = flightSuretyData.getVotes(newAirline);
+        
+        if(registeredAirlines.length >= minimumN) {
+            if(airlineVotes.length >= registeredAirlines.length / 2) {
+                flightSuretyData.registerAirline(newAirline);
                 success = true;
-                votes = multiCalls.length;
-                multiCalls = new address[](0);
+            } else {
+                success = false;
             }
-            return (success, votes);
+        } else {
+            flightSuretyData.registerAirline(newAirline);
+            success = true;
         }
+        return (success, airlineVotes.length);
     }
 
+    function isAirlineRegistered
+                                (
+                                    address newAirline
+                                )
+                                external
+                                view
+                                returns(bool)
+    {
+        require(isOperational(), "Service is not available");
+        return flightSuretyData.isAirlineRegistered(newAirline);
+    }
+
+    function permitAirline
+                                (
+                                    address airline
+                                )
+                                external
+                                payable
+    {
+        require(isOperational(), "Service is not available");
+        require(flightSuretyData.isAirlineRegistered(airline), "This airline is not registered");
+        require(!flightSuretyData.isPermitted(airline), "This airline is already permitted");
+        require(msg.value == 10 ether, "Send 10 ether to activate");
+        flightSuretyData.permitAirline.value(msg.value)(airline);
+    }
+
+    function isPermitted
+                                (
+                                    address airline
+                                )
+                                external
+                                view
+                                returns(bool)
+    {
+        require(isOperational(), "Service is not available");
+        return flightSuretyData.isPermitted(airline);
+    }
+
+    function getPermittedAirlines()
+                                external
+                                view
+                                returns(address[])
+    {
+        require(isOperational(), "Service is not available");
+        return flightSuretyData.getPermittedAirlines();
+    }
 
    /**
     * @dev Register a future flight for insuring.
@@ -189,6 +228,40 @@ contract FlightSuretyApp {
         flights[flight].updatedTimestamp = timestamp;
     }
 
+    function buy
+                                (
+                                    address airline,
+                                    string flight,
+                                    uint256 timestamp,
+                                    address insuree
+                                )
+                                external
+                                payable
+    {
+        require(isOperational(), "Service is not available");
+        require(msg.value <= 1 ether, "Amount should be less than 1 ether");
+        flightSuretyData.buy.value(msg.value)(airline, flight, timestamp, insuree, msg.value);
+    }
+
+    function creditInsurees
+                                (
+                                    address airline,
+                                    string flight,
+                                    uint256 timestamp,
+                                    address insuree
+                                )
+                                external
+    {
+        require(isOperational(), "Service is not available");
+        flightSuretyData.creditInsurees(airline, flight, timestamp, airline, insuree);
+    }
+
+    function pay()
+                                external
+    {
+        require(isOperational(), "Service is not available");
+        flightSuretyData.pay(msg.sender);
+    }
 
     // Generate a request for oracles to fetch flight information
     function fetchFlightStatus
