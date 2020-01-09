@@ -1,4 +1,5 @@
 import FlightSuretyApp from '../../build/contracts/FlightSuretyApp.json';
+import FlightSuretyData from '../../build/contracts/FlightSuretyData.json';
 import Config from './config.json';
 import Web3 from 'web3';
 
@@ -8,10 +9,12 @@ export default class Contract {
         let config = Config[network];
         this.web3 = new Web3(new Web3.providers.HttpProvider(config.url));
         this.flightSuretyApp = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
+        this.flightSuretyData = new this.web3.eth.Contract(FlightSuretyData.abi, config.dataAddress);
         this.initialize(callback);
         this.owner = null;
         this.airlines = [];
         this.passengers = [];
+        this.flights = [];
     }
 
     initialize(callback) {
@@ -51,6 +54,31 @@ export default class Contract {
             .fetchFlightStatus(payload.airline, payload.flight, payload.timestamp)
             .send({ from: self.owner}, (error, result) => {
                 callback(error, payload);
+            });
+    }
+
+    buy(flight, insuranceAmount, callback) {
+        let self = this;
+        self.flightSuretyApp.methods
+            .buy(flight.airline, flight.flight, flight.timestamp, self.passengers[0])
+            .send({
+                from: self.passengers[0],
+                value: self.web3.utils.toWei(insuranceAmount, "ether"),
+                gas: 4712388,
+                gasPrice: 100000000000
+            }, (error, result) => {
+                flight.insuranceAmount = insuranceAmount;
+                flight.passenger = self.passengers[0];
+                callback(error, flight);
+            });
+    }
+
+    pay(walletAddress, callback) {
+        let self = this;
+        self.flightSuretyApp.methods
+            .pay()
+            .send({from: walletAddress,}, (error, result) => {
+                callback(error, result);
             });
     }
 }

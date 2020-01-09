@@ -95,7 +95,7 @@ contract FlightSuretyApp {
 
     function isOperational()
                             public
-                            view
+                            payable
                             returns(bool)
     {
         // return true;  // Modify to call data contract's status
@@ -120,14 +120,14 @@ contract FlightSuretyApp {
                             returns(bool success, uint256 votes)
     {
         require(isOperational(), "Service is not available");
-        require(flightSuretyData.isAirlinePermitted(msg.sender), "Sender airline is not permitted");
+        require(flightSuretyData.isPermitted(msg.sender), "Sender airline is not permitted");
         require(!flightSuretyData.isAirlineRegistered(newAirline), "New airline is already registered");
-        require(!flightSuretyData.isAirlineVoted(newAirline, msg.sender), "Already voted for new airline");
-        flightSuretyData.addVotes(newAirline, msg.sender);
-        
+        require(!flightSuretyData.isVoted(newAirline, msg.sender), "Already voted for new airline");
+        flightSuretyData.setVotes(newAirline, msg.sender);
+
         address[] memory registeredAirlines = flightSuretyData.getRegisteredAirlines();
         address[] memory airlineVotes = flightSuretyData.getVotes(newAirline);
-        
+
         if(registeredAirlines.length >= minimumN) {
             if(airlineVotes.length >= registeredAirlines.length / 2) {
                 flightSuretyData.registerAirline(newAirline);
@@ -147,7 +147,7 @@ contract FlightSuretyApp {
                                     address newAirline
                                 )
                                 external
-                                view
+                                payable
                                 returns(bool)
     {
         require(isOperational(), "Service is not available");
@@ -173,7 +173,7 @@ contract FlightSuretyApp {
                                     address airline
                                 )
                                 external
-                                view
+                                payable
                                 returns(bool)
     {
         require(isOperational(), "Service is not available");
@@ -182,7 +182,7 @@ contract FlightSuretyApp {
 
     function getPermittedAirlines()
                                 external
-                                view
+                                payable
                                 returns(address[])
     {
         require(isOperational(), "Service is not available");
@@ -193,6 +193,7 @@ contract FlightSuretyApp {
     * @dev Register a future flight for insuring.
     *
     */
+    /*
     function registerFlight
                                 (
                                     address airline,
@@ -209,6 +210,7 @@ contract FlightSuretyApp {
                                         isRegistered: true
                                 });
     }
+    */
 
    /**
     * @dev Called after oracle has updated flight status
@@ -253,7 +255,7 @@ contract FlightSuretyApp {
                                 external
     {
         require(isOperational(), "Service is not available");
-        flightSuretyData.creditInsurees(airline, flight, timestamp, airline, insuree);
+        flightSuretyData.creditInsurees(airline, flight, timestamp, insuree);
     }
 
     function pay()

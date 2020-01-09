@@ -74,7 +74,7 @@ contract FlightSuretyData {
 
     modifier requireIsRegistered(address airline)
     {
-        require(isRegistered(airline), "Airline is not registered");
+        require(isAirlineRegistered(airline), "Airline is not registered");
         _;  // All modifiers require an "_" which indicates where the function body will be added
     }
 
@@ -280,14 +280,19 @@ contract FlightSuretyData {
     {
         bytes32 flightKey = getFlightKey(airline, flight, timestamp);
         bytes32 insuranceId = keccak256(abi.encodePacked(flightKey, insuree));
+
         require(flightInsuranceDetails[insuranceId].id == insuranceId, "Not purchased the insurance.");
-        require(!flightInsuranceDetails[insuranceKey].isRefunded, "Already refunded the amount.");
+        require(!flightInsuranceDetails[insuranceId].isRefunded, "Already refunded the amount.");
+
         uint256 currentAirlineBalance = walletBalance[airline];
         uint256 amountCreditedToInsuree = flightInsuranceDetails[insuranceId].amount.mul(15).div(10);
+
         require(currentAirlineBalance >= amountCreditedToInsuree, "Airline Doesn't have enough funds.");
+
         flightInsuranceDetails[insuranceId].isRefunded = true;
         walletBalance[airline] = currentAirlineBalance.sub(amountCreditedToInsuree);
         walletBalance[insuree] = walletBalance[insuree].add(amountCreditedToInsuree);
+
         emit insuranceClaimed(airline, flight, timestamp, insuree, amountCreditedToInsuree);
     }
 
