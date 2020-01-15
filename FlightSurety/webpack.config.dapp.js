@@ -38,7 +38,7 @@ module.exports = {
   ],
   resolve: {
     extensions: [".js"]
-    modules: [path.resolve(__dirname, 'src'), 'node_modules']
+    // modules: [path.resolve(__dirname, 'src'), 'node_modules']
   },
   devServer: {
     contentBase: path.join(__dirname, "dapp"),

@@ -13,6 +13,10 @@ import './flightsurety.css';
         // Read transaction
         contract.isOperational((error, result) => {
             console.log(error,result);
+            let selectFlight = DOM.elid('selectFlight');
+            contract.flights.forEach(flight => {
+                addFlightOption(flight, selectFlight);
+            });
             display('Operational Status', 'Check if contract is operational', [ { label: 'Operational Status', error: error, value: result} ]);
         });
     
