@@ -20,21 +20,88 @@ import './flightsurety.css';
             display('Operational Status', 'Check if contract is operational', [ { label: 'Operational Status', error: error, value: result} ]);
         });
     
+        contract.flightSuretyData.events.airlineFunded({
+            fromBlock: "latest"
+        }, function (error, result) {
+            if (error) {
+                console.log(error)
+            } else {
+                display('Airline Funded', 'Airline funded by the Airline', [ { label: 'Airline Funded', error: error, value: `Airline ${result.returnValues.airline} got funded`} ]);
+            }
+        });
+
+        contract.flightSuretyData.events.insuranceClaimed({
+            fromBlock: "latest"
+        }, function (error, result) {
+            if (error) {
+                console.log(error)
+            } else {
+                display('Claim Insurance', 'Insurance claimed by insuree', [ { label: 'Insurance Claimed', error: error, value: `Insurance claimed by ${result.returnValues.insuree}. An amount of ${result.returnValues.creditedAmount} WEI has been added to his wallet for ${result.returnValues.flight} at ${new Date(result.returnValues.timestamp * 1000)}`} ]);
+            }
+        });
+
+        contract.flightSuretyData.events.amountWithdrawn({
+            fromBlock: "latest"
+        }, function (error, result) {
+            if (error) {
+                console.log(error)
+            } else {
+                display('Withdraw Amount', 'Withdraw amount to wallet', [ { label: 'Amount withdrawn', error: error, value: `Amount ${result.returnValues.amount} withdrawn to ${result.returnValues.senderAddress} at ${new Date()}`} ]);
+            }
+        });
+
 
         // User-submitted transaction
         DOM.elid('submit-oracle').addEventListener('click', () => {
             let flight = DOM.elid('flight-number').value;
+            DOM.elid('flight-number').value = "";
             // Write transaction
             contract.fetchFlightStatus(flight, (error, result) => {
+                let selectFlight = DOM.elid('selectFlight');
+                addFlightOption(result, selectFlight);
                 display('Oracles', 'Trigger oracles', [ { label: 'Fetch Flight Status', error: error, value: result.flight + ' ' + result.timestamp} ]);
             });
         })
+
+        DOM.elid('buyInsurance').addEventListener('click', () => {
+            let selectedFlightElement = document.getElementById("selectFlight");
+            let selectedFlightValue = selectedFlightElement.options[selectedFlightElement.selectedIndex].value;
+            let insuranceAmount = DOM.elid('insuranceAmount').value;
+            if(selectedFlightValue === "Select") {
+                alert("Please select the flight and departure time");
+            } else {
+                DOM.elid('insuranceAmount').value = "";
+                selectedFlightValue = JSON.parse(selectedFlightValue);
+                contract.buy(selectedFlightValue, insuranceAmount, (error, result) => {
+                    if(error) {
+                        alert(error);
+                    }
+                    display('Buy Insurance', 'Insurance purchased by the passenger', [ { label: 'Insurance Purchased', error: error, value: `Insurance purchased by ${result.insuree} at ${result.insuranceAmount} ETH for flight ${result.flight} of airline ${result.airline} scheduled at ${new Date(result.timestamp * 1000)}`} ]);
+                });
+            }
+        });
+
+        DOM.elid('withdrawFund').addEventListener('click', () => {
+            let walletAddress = DOM.elid('withdrawalAddress').value;
+            // Write transaction
+            contract.withdrawAmount(walletAddress, (error, result) => {
+                if(error) {
+                    alert(error);
+                }
+            });
+        });
     
     });
     
 
 })();
 
+function addFlightOption(flight, selectComponent) {
+    let option = document.createElement("option");
+    option.text =  `Flight ${flight.flight} scheduled at ${new Date(flight.timestamp)}`;
+    option.value = JSON.stringify(flight);
+    selectComponent.add(option);
+}
 
 function display(title, description, results) {
     let displayDiv = DOM.elid("display-wrapper");
