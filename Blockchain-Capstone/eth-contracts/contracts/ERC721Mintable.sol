@@ -5,10 +5,10 @@ pragma solidity ^0.5.0;
 // import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 // import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 
-import '..../node_modules/openzeppelin-solidity/contracts/utils/Address.sol';
-import 'openzeppelin-solidity/contracts/drafts/Counters.sol';
-import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
-import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
+import '../../node_modules/openzeppelin-solidity/contracts/utils/Address.sol';
+import '../../node_modules/openzeppelin-solidity/contracts/drafts/Counters.sol';
+import '../../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol';
+import '../../node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 import "./Oraclize.sol";
 
 contract Ownable {
@@ -76,7 +76,7 @@ contract ERC721 is Pausable, ERC165 {
     event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
 
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
-    
+
     using SafeMath for uint256;
     using Address for address;
     using Counters for Counters.Counter;
@@ -118,7 +118,7 @@ contract ERC721 is Pausable, ERC165 {
 
 //    @dev Approves another address to transfer the given token ID
     function approve(address to, uint256 tokenId) public {
-        
+
         // TODO require the given address to not be the owner of the tokenId
 
         // TODO require the msg sender to be the owner of the contract or isApprovedForAll() to be true
@@ -197,7 +197,7 @@ contract ERC721 is Pausable, ERC165 {
     function _mint(address to, uint256 tokenId) internal {
 
         // TODO revert if given tokenId already exists or given address is invalid
-  
+
         // TODO mint tokenId to given address & increase token count of owner
 
         // TODO emit Transfer event
@@ -210,10 +210,10 @@ contract ERC721 is Pausable, ERC165 {
         // TODO: require from address is the owner of the given token
 
         // TODO: require token is being transfered to valid address
-        
+
         // TODO: clear approval
 
-        // TODO: update token counts & transfer ownership of the token ID 
+        // TODO: update token counts & transfer ownership of the token ID
 
         // TODO: emit correct event
     }
@@ -419,7 +419,7 @@ contract ERC721Enumerable is ERC165, ERC721 {
 }
 
 contract ERC721Metadata is ERC721Enumerable, usingOraclize {
-    
+
     // TODO: Create private vars for token _name, _symbol, and _baseTokenURI (string)
 
     // TODO: create private mapping of tokenId's to token uri's called '_tokenURIs'
