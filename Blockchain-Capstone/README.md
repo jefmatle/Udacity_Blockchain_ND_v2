@@ -2,6 +2,22 @@
 
 The capstone will build upon the knowledge you have gained in the course in order to build a decentralized housing product.
 
+# Truffle Test
+Run `truffle test` to test the code.
+
+# Contract Address(Rinkeby)
+## Verifier
+
+
+## SolnSquareVerifier
+
+
+# Contract ABI
+See build folder
+
+# OpenSea MarketPlace Storefront
+
+
 # Project Resources
 
 * [Remix - Solidity IDE](https://remix.ethereum.org/)
