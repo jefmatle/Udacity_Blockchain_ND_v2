@@ -11,11 +11,14 @@
   "author": "pk <pkrasam@gmail.com> (https://ipfs.infura.io/ipfs/QmSXiR9Khm3yo1J67nUopvVBxFJ8YGN2fUGZ34Etr3m92x/)",
   "license": "MIT",
   "devDependencies": {
-    "lite-server": "2.4.0"
+    "lite-server": "2.5.4"
   },
   "dependencies": {
-    "openzeppelin-solidity": "^2.2.0",
-    "solc": "^0.5.2",
-    "solc-js": "^0.5.2"
+    "install": "^0.13.0",
+    "npm": "^6.13.6",
+    "openzeppelin-solidity": "^2.4.0",
+    "solc": "^0.6.1",
+    "solc-js": "^1.0.1",
+    "truffle-hdwallet-provider": "^1.0.17"
   }
 }

@@ -23,13 +23,13 @@ contract('TestVerifier', accounts => {
         // Test verification with correct proof
         // - use the contents from proof.json generated from zokrates steps
         it('Test verification with correct proof', async function () {
-            let isVerified = await this.contract.verifyTx.call(A, A_p, B, B_p, C, C_p, H, K, correctProofInput);
+            let isVerified = await this.contract.verifyTx.call(A, B, C, correctProofInput);
             assert.equal(isVerified, true, "Incorrect proof");
         });
     
         // Test verification with incorrect proof
         it('Test verification with incorrect proof', async function () {
-            let isVerified = await this.contract.verifyTx.call(A, A_p, B, B_p, C, C_p, H, K, incorrectProofInput);
+            let isVerified = await this.contract.verifyTx.call(A, B, C, incorrectProofInput);
             assert.equal(isVerified, false, "Correct proof");
         });
     });

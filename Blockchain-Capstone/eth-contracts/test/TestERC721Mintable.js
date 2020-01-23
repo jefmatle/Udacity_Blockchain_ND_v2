@@ -11,7 +11,7 @@ contract('TestERC721Mintable', accounts => {
 
     describe('match erc721 spec', function () {
         beforeEach(async function () { 
-            this.contract = await ERC721MintableComplete.new({from: account_one});
+            this.contract = await ERC721Mintable.new(propertyName, propertySymbol, propertyBaseURI, {from: account_one});
 
             // TODO: mint multiple tokens
             await this.contract.mint(account_one, 1);

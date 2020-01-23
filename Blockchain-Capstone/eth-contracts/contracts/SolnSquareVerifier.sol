@@ -45,7 +45,8 @@ contract SolnSquareVerifier is ERC721Mintable {
             }
         }
         require(isUniqueSolution, "Solution is not unique");
-        require(verifier.verifyTx(a, a_p, b, b_p, c, c_p, h, k, input), "Can't verify solution");
+        // require(verifier.verifyTx(a, a_p, b, b_p, c, c_p, h, k, input), "Can't verify solution");
+        require(verifier.verifyTx(a, b, c, input), "Can't verify solution");
         solutionsSubmitted[solutionKey] = Solution({
             index: solutionKey,
             solverAddress: to
