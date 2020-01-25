@@ -2,15 +2,18 @@
 
 The capstone will build upon the knowledge you have gained in the course in order to build a decentralized housing product.
 
-# Truffle Test
-Run `truffle test` to test the code.
+# Test
+Run `truffle test` to test.
 
 # Contract Address(Rinkeby)
-## Verifier
+## ERC721Mintable
+0x7435b5914901A1771FA6B51f338C79d3BBB441B0
 
+## Verifier
+0x3F88FD7a23C90BF36e94848d3e9A1Ca20F30FE4b
 
 ## SolnSquareVerifier
-
+0xA149e1c52533311198f6DC9a74994bA92Ad89819
 
 # Contract ABI
 See build folder

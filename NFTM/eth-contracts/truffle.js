@@ -19,8 +19,8 @@
  */
 
 const HDWalletProvider = require('truffle-hdwallet-provider');
-// const mnemonic = "focus tone mad limb brick exit throw seven duty patient also unknown";
-const mnemonic = "desk diary anchor escape tackle write double athlete reveal announce obvious abuse";
+const mnemonic = "focus tone mad limb brick exit throw seven duty patient also unknown";
+// const mnemonic = "desk diary anchor escape tackle write double athlete reveal announce obvious abuse";
 // const infuraKey = "fj4jll3k.....";
 //
 // const fs = require('fs');

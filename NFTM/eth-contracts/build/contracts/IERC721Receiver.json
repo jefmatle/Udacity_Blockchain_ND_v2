@@ -33,25 +33,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.5+commit.47a71e8f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"operator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"tokenId\",\"type\":\"uint256\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"onERC721Received\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes4\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface for any contract that wants to support safeTransfers from ERC721 asset contracts.\",\"methods\":{\"onERC721Received(address,address,uint256,bytes)\":{\"details\":\"The ERC721 smart contract calls this function on the recipient after a {IERC721-safeTransferFrom}. This function MUST return the function selector, otherwise the caller will revert the transaction. The selector to be returned can be obtained as `this.onERC721Received.selector`. This function MAY throw to revert and reject the transfer. Note: the ERC721 contract address is always the message sender.\",\"params\":{\"data\":\"Additional data with no specified format\",\"from\":\"The address which previously owned the token\",\"operator\":\"The address which called `safeTransferFrom` function\",\"tokenId\":\"The NFT identifier which is being transferred\"},\"return\":\"bytes4 `bytes4(keccak256(\\\"onERC721Received(address,address,uint256,bytes)\\\"))`\"}},\"title\":\"ERC721 token receiver interface\"},\"userdoc\":{\"methods\":{\"onERC721Received(address,address,uint256,bytes)\":{\"notice\":\"Handle the receipt of an NFT\"}}}},\"settings\":{\"compilationTarget\":{\"/Users/Kohei/Local_Documents/Coding/Clean/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol\":\"IERC721Receiver\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/Kohei/Local_Documents/Coding/Clean/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol\":{\"keccak256\":\"0x042048c375daca04b31e31c91bbae912b84b5eb818c4e31b2deb530fd2305342\",\"urls\":[\"bzzr://2f8b9c142d30b43eab7b77dbcc632a51987eeb62371777d765e9311c0b3c4c13\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.5+commit.47a71e8f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"operator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"tokenId\",\"type\":\"uint256\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"onERC721Received\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes4\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface for any contract that wants to support safeTransfers from ERC721 asset contracts.\",\"methods\":{\"onERC721Received(address,address,uint256,bytes)\":{\"details\":\"The ERC721 smart contract calls this function on the recipient after a {IERC721-safeTransferFrom}. This function MUST return the function selector, otherwise the caller will revert the transaction. The selector to be returned can be obtained as `this.onERC721Received.selector`. This function MAY throw to revert and reject the transfer. Note: the ERC721 contract address is always the message sender.\",\"params\":{\"data\":\"Additional data with no specified format\",\"from\":\"The address which previously owned the token\",\"operator\":\"The address which called `safeTransferFrom` function\",\"tokenId\":\"The NFT identifier which is being transferred\"},\"return\":\"bytes4 `bytes4(keccak256(\\\"onERC721Received(address,address,uint256,bytes)\\\"))`\"}},\"title\":\"ERC721 token receiver interface\"},\"userdoc\":{\"methods\":{\"onERC721Received(address,address,uint256,bytes)\":{\"notice\":\"Handle the receipt of an NFT\"}}}},\"settings\":{\"compilationTarget\":{\"/Users/Kohei/Udacity_Blockchain_ND_v2/NFTM/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol\":\"IERC721Receiver\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/Kohei/Udacity_Blockchain_ND_v2/NFTM/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol\":{\"keccak256\":\"0x042048c375daca04b31e31c91bbae912b84b5eb818c4e31b2deb530fd2305342\",\"urls\":[\"bzzr://2f8b9c142d30b43eab7b77dbcc632a51987eeb62371777d765e9311c0b3c4c13\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.0;\n\n/**\n * @title ERC721 token receiver interface\n * @dev Interface for any contract that wants to support safeTransfers\n * from ERC721 asset contracts.\n */\ncontract IERC721Receiver {\n    /**\n     * @notice Handle the receipt of an NFT\n     * @dev The ERC721 smart contract calls this function on the recipient\n     * after a {IERC721-safeTransferFrom}. This function MUST return the function selector,\n     * otherwise the caller will revert the transaction. The selector to be\n     * returned can be obtained as `this.onERC721Received.selector`. This\n     * function MAY throw to revert and reject the transfer.\n     * Note: the ERC721 contract address is always the message sender.\n     * @param operator The address which called `safeTransferFrom` function\n     * @param from The address which previously owned the token\n     * @param tokenId The NFT identifier which is being transferred\n     * @param data Additional data with no specified format\n     * @return bytes4 `bytes4(keccak256(\"onERC721Received(address,address,uint256,bytes)\"))`\n     */\n    function onERC721Received(address operator, address from, uint256 tokenId, bytes memory data)\n    public returns (bytes4);\n}\n",
-  "sourcePath": "/Users/Kohei/Local_Documents/Coding/Clean/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol",
+  "sourcePath": "/Users/Kohei/Udacity_Blockchain_ND_v2/NFTM/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol",
   "ast": {
-    "absolutePath": "/Users/Kohei/Local_Documents/Coding/Clean/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol",
+    "absolutePath": "/Users/Kohei/Udacity_Blockchain_ND_v2/NFTM/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol",
     "exportedSymbols": {
       "IERC721Receiver": [
-        7950
+        7905
       ]
     },
-    "id": 7951,
+    "id": 7906,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 7936,
+        "id": 7891,
         "literals": [
           "solidity",
           "^",
@@ -67,9 +67,9 @@
         "contractKind": "contract",
         "documentation": "@title ERC721 token receiver interface\n@dev Interface for any contract that wants to support safeTransfers\nfrom ERC721 asset contracts.",
         "fullyImplemented": false,
-        "id": 7950,
+        "id": 7905,
         "linearizedBaseContracts": [
-          7950
+          7905
         ],
         "name": "IERC721Receiver",
         "nodeType": "ContractDefinition",
@@ -77,22 +77,22 @@
           {
             "body": null,
             "documentation": "@notice Handle the receipt of an NFT\n@dev The ERC721 smart contract calls this function on the recipient\nafter a {IERC721-safeTransferFrom}. This function MUST return the function selector,\notherwise the caller will revert the transaction. The selector to be\nreturned can be obtained as `this.onERC721Received.selector`. This\nfunction MAY throw to revert and reject the transfer.\nNote: the ERC721 contract address is always the message sender.\n@param operator The address which called `safeTransferFrom` function\n@param from The address which previously owned the token\n@param tokenId The NFT identifier which is being transferred\n@param data Additional data with no specified format\n@return bytes4 `bytes4(keccak256(\"onERC721Received(address,address,uint256,bytes)\"))`",
-            "id": 7949,
+            "id": 7904,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "onERC721Received",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 7945,
+              "id": 7900,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 7938,
+                  "id": 7893,
                   "name": "operator",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1105:16:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -101,7 +101,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 7937,
+                    "id": 7892,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1105:7:6",
@@ -116,10 +116,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 7940,
+                  "id": 7895,
                   "name": "from",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1123:12:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -128,7 +128,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 7939,
+                    "id": 7894,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1123:7:6",
@@ -143,10 +143,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 7942,
+                  "id": 7897,
                   "name": "tokenId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1137:15:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -155,7 +155,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 7941,
+                    "id": 7896,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1137:7:6",
@@ -169,10 +169,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 7944,
+                  "id": 7899,
                   "name": "data",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1154:17:6",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -181,7 +181,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 7943,
+                    "id": 7898,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1154:5:6",
@@ -197,15 +197,15 @@
               "src": "1104:68:6"
             },
             "returnParameters": {
-              "id": 7948,
+              "id": 7903,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 7947,
+                  "id": 7902,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1193:6:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -214,7 +214,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 7946,
+                    "id": 7901,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "1193:6:6",
@@ -229,31 +229,31 @@
               ],
               "src": "1192:8:6"
             },
-            "scope": 7950,
+            "scope": 7905,
             "src": "1079:122:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 7951,
+        "scope": 7906,
         "src": "178:1025:6"
       }
     ],
     "src": "0:1204:6"
   },
   "legacyAST": {
-    "absolutePath": "/Users/Kohei/Local_Documents/Coding/Clean/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol",
+    "absolutePath": "/Users/Kohei/Udacity_Blockchain_ND_v2/NFTM/node_modules/openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol",
     "exportedSymbols": {
       "IERC721Receiver": [
-        7950
+        7905
       ]
     },
-    "id": 7951,
+    "id": 7906,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 7936,
+        "id": 7891,
         "literals": [
           "solidity",
           "^",
@@ -269,9 +269,9 @@
         "contractKind": "contract",
         "documentation": "@title ERC721 token receiver interface\n@dev Interface for any contract that wants to support safeTransfers\nfrom ERC721 asset contracts.",
         "fullyImplemented": false,
-        "id": 7950,
+        "id": 7905,
         "linearizedBaseContracts": [
-          7950
+          7905
         ],
         "name": "IERC721Receiver",
         "nodeType": "ContractDefinition",
@@ -279,22 +279,22 @@
           {
             "body": null,
             "documentation": "@notice Handle the receipt of an NFT\n@dev The ERC721 smart contract calls this function on the recipient\nafter a {IERC721-safeTransferFrom}. This function MUST return the function selector,\notherwise the caller will revert the transaction. The selector to be\nreturned can be obtained as `this.onERC721Received.selector`. This\nfunction MAY throw to revert and reject the transfer.\nNote: the ERC721 contract address is always the message sender.\n@param operator The address which called `safeTransferFrom` function\n@param from The address which previously owned the token\n@param tokenId The NFT identifier which is being transferred\n@param data Additional data with no specified format\n@return bytes4 `bytes4(keccak256(\"onERC721Received(address,address,uint256,bytes)\"))`",
-            "id": 7949,
+            "id": 7904,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "onERC721Received",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 7945,
+              "id": 7900,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 7938,
+                  "id": 7893,
                   "name": "operator",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1105:16:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -303,7 +303,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 7937,
+                    "id": 7892,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1105:7:6",
@@ -318,10 +318,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 7940,
+                  "id": 7895,
                   "name": "from",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1123:12:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -330,7 +330,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 7939,
+                    "id": 7894,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1123:7:6",
@@ -345,10 +345,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 7942,
+                  "id": 7897,
                   "name": "tokenId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1137:15:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -357,7 +357,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 7941,
+                    "id": 7896,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1137:7:6",
@@ -371,10 +371,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 7944,
+                  "id": 7899,
                   "name": "data",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1154:17:6",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -383,7 +383,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 7943,
+                    "id": 7898,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1154:5:6",
@@ -399,15 +399,15 @@
               "src": "1104:68:6"
             },
             "returnParameters": {
-              "id": 7948,
+              "id": 7903,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 7947,
+                  "id": 7902,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 7949,
+                  "scope": 7904,
                   "src": "1193:6:6",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -416,7 +416,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 7946,
+                    "id": 7901,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "1193:6:6",
@@ -431,14 +431,14 @@
               ],
               "src": "1192:8:6"
             },
-            "scope": 7950,
+            "scope": 7905,
             "src": "1079:122:6",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 7951,
+        "scope": 7906,
         "src": "178:1025:6"
       }
     ],
@@ -450,7 +450,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.21",
-  "updatedAt": "2020-01-25T08:39:59.599Z",
+  "updatedAt": "2020-01-25T11:35:33.629Z",
   "devdoc": {
     "details": "Interface for any contract that wants to support safeTransfers from ERC721 asset contracts.",
     "methods": {
