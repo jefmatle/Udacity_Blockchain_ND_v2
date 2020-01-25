@@ -4,21 +4,10 @@ const proof = require('../../zokrates/code/square/proof.json');
 
 contract('TestVerifier', accounts => {
     const account1 = accounts[0];
-    /*
-    const A = proof["proof"]["A"];
-    const A_p = proof["proof"]["A_p"];
-    const B = proof["proof"]["B"];
-    const B_p = proof["proof"]["B_p"];
-    const C = proof["proof"]["C"];
-    const C_p = proof["proof"]["C_p"];
-    const H = proof["proof"]["H"];
-    const K = proof["proof"]["K"];
-    const correctProofInput = proof["input"];
-    const incorrectProofInput = [4, 2];
-    */
-    const A = proof["proof"]["a"];
-    const B = proof["proof"]["b"];
-    const C = proof["proof"]["c"];
+
+    const a = proof["proof"]["a"];
+    const b = proof["proof"]["b"];
+    const c = proof["proof"]["c"];
     const correctProofInput = proof["inputs"];
     const incorrectProofInput = [4, 2];
 
@@ -30,13 +19,13 @@ contract('TestVerifier', accounts => {
         // Test verification with correct proof
         // - use the contents from proof.json generated from zokrates steps
         it('Test verification with correct proof', async function () {
-            let isVerified = await this.contract.verifyTx.call(A, B, C, correctProofInput);
+            let isVerified = await this.contract.verifyTx.call(a, b, c, correctProofInput);
             assert.equal(isVerified, true, "Incorrect proof");
         });
     
         // Test verification with incorrect proof
         it('Test verification with incorrect proof', async function () {
-            let isVerified = await this.contract.verifyTx.call(A, B, C, incorrectProofInput);
+            let isVerified = await this.contract.verifyTx.call(a, b, c, incorrectProofInput);
             assert.equal(isVerified, false, "Correct proof");
         });
     });
