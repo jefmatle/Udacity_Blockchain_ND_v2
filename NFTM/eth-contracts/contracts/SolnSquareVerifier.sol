@@ -34,8 +34,9 @@ contract SolnSquareVerifier is ERC721Mintable {
 
     // TODO Create a function to add the solutions to the array and emit the event
     function addSolution(
-    uint[2] memory a, uint[2] memory a_p, uint[2][2] memory b, uint[2] memory b_p, uint[2] memory c, uint[2] memory c_p,
-    uint[2] memory h, uint[2] memory k, uint[2] memory input, address to)
+    // uint[2] memory a, uint[2] memory a_p, uint[2][2] memory b, uint[2] memory b_p, uint[2] memory c, uint[2] memory c_p,
+    // uint[2] memory h, uint[2] memory k, uint[2] memory input, address to)
+    uint[2] memory a, uint[2][2] memory b, uint[2] memory c, uint[2] memory input, address to)
     public returns (bool) {
         bytes32 solutionKey = keccak256(abi.encodePacked(input[0], input[1]));
         bool isUniqueSolution = true;
@@ -60,10 +61,12 @@ contract SolnSquareVerifier is ERC721Mintable {
     //  - make sure the solution is unique (has not been used before)
     //  - make sure you handle metadata as well as tokenSuplly
     function mintNewToken(
-    uint[2] memory a, uint[2] memory a_p, uint[2][2] memory b, uint[2] memory b_p, uint[2] memory c, uint[2] memory c_p,
-    uint[2] memory h, uint[2] memory k, uint[2] memory input, address to, uint256 tokenId)
+    // uint[2] memory a, uint[2] memory a_p, uint[2][2] memory b, uint[2] memory b_p, uint[2] memory c, uint[2] memory c_p,
+    // uint[2] memory h, uint[2] memory k, uint[2] memory input, address to, uint256 tokenId)
+    uint[2] memory a, uint[2][2] memory b, uint[2] memory c, uint[2] memory input, address to, uint256 tokenId)
     public returns (bool) {
-        require(addSolution(a, a_p, b, b_p, c, c_p, h, k, input, to), "Can't add solution");
+        // require(addSolution(a, a_p, b, b_p, c, c_p, h, k, input, to), "Can't add solution");
+        require(addSolution(a, b, c, input, to), "Can't add solution");
         return super.mint(to, tokenId);
     }
 }

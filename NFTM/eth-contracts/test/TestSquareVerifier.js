@@ -4,6 +4,7 @@ const proof = require('../../zokrates/code/square/proof.json');
 
 contract('TestVerifier', accounts => {
     const account1 = accounts[0];
+    /*
     const A = proof["proof"]["A"];
     const A_p = proof["proof"]["A_p"];
     const B = proof["proof"]["B"];
@@ -13,6 +14,12 @@ contract('TestVerifier', accounts => {
     const H = proof["proof"]["H"];
     const K = proof["proof"]["K"];
     const correctProofInput = proof["input"];
+    const incorrectProofInput = [4, 2];
+    */
+    const A = proof["proof"]["a"];
+    const B = proof["proof"]["b"];
+    const C = proof["proof"]["c"];
+    const correctProofInput = proof["inputs"];
     const incorrectProofInput = [4, 2];
 
     describe('Test verifier', function () {
